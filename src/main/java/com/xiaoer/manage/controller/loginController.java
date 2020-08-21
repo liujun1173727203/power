@@ -5,6 +5,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +23,11 @@ public class loginController {
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String login(@Param("account")String account,@Param("pass")String pass) {
 		Users user=userserver.findUser(account);
+		String hashAlgorithName="MD5";
+		int hashInterations=1024;
+		Object obj= new SimpleHash(hashAlgorithName,pass,account,hashInterations);
 		Subject subject=SecurityUtils.getSubject();
-		UsernamePasswordToken accountpass =new UsernamePasswordToken(account, pass);
+		UsernamePasswordToken accountpass =new UsernamePasswordToken(account, String.valueOf(obj));
 		try {
 			subject.login(accountpass);
 		}catch(UnknownAccountException e) {
@@ -33,10 +37,11 @@ public class loginController {
 			e.printStackTrace();
 			return "用户名或密码错误";
 		};
-		return "success";
+		return String.valueOf(obj);
 	}
-	@RequestMapping("/error")
-	public String error() {
-		return "您没有此权限";
+	@RequestMapping("/loginout")
+	public void loginout() {
+		Subject subject= SecurityUtils.getSubject();
+		subject.logout();
 	}
 }

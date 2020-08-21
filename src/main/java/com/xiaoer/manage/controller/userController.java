@@ -2,6 +2,8 @@ package com.xiaoer.manage.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ public class userController {
 	@RequiresPermissions("1")
 	@RequestMapping("/adduser")
 	public String addUser(Users user) {
+		System.out.println(user.toString());
 		if(userserver.addUser(user)) {
 			return "success";
 		};

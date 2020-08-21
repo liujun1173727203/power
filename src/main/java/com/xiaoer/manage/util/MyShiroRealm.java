@@ -9,6 +9,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,9 +36,11 @@ public class MyShiroRealm extends AuthorizingRealm{
 		if(user==null) {
 			throw new UnknownAccountException();
 		};
+		ByteSource crendentialsSalt=ByteSource.Util.bytes(user.getAccount());
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
 				user.getAccount(),
 				user.getPass(),
+				crendentialsSalt,
 				getName()
 				);
 		return authenticationInfo;

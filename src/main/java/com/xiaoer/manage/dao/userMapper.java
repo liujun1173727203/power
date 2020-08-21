@@ -26,6 +26,7 @@ public interface userMapper {
 		@Result(property="phone",column="phone",jdbcType=JdbcType.VARCHAR),
 		@Result(property="datetime",column="create_time",jdbcType=JdbcType.DATE),
 		@Result(property="state",column="state",jdbcType=JdbcType.INTEGER),
+		@Result(property="pid",column="pid",jdbcType=JdbcType.INTEGER),
 		@Result(property="authority",column="authority",jdbcType=JdbcType.INTEGER),
 		@Result(property="name",column="name",jdbcType=JdbcType.VARCHAR),
 		@Result(property="nickname",column="nickname",jdbcType=JdbcType.VARCHAR),
@@ -37,10 +38,10 @@ public interface userMapper {
 	@ResultMap(value="userMap")
 	Users findUser(String account);
 	
-	@Insert("insert into users(account,area,percent,phone,state,authority,name,nickname,wechat_img)values(#{account},#{area},#{percent},#{phone},#{state},#{authority},#{name},#{nickname},#{wechat_img}")
+	@Insert("insert into users(account,area,percent,phone,state,authority,name,nickname,wechat_img,pid,pass)values(#{account},#{area},#{percent},#{phone},#{state},#{authority},#{name},#{nickname},#{wechat_img},#{pid},#{pass})")
 	boolean addUser(Users user);
 	
-	@Update("update users set account=#{account},area=#{area},percent=#{percent},phone=#{phone},state=#{state},authority=#{authority},name=#{name},nickname=#{nickname},wechat_img=#{wechat_img} where id=#{id}")
+	@Update("update users set account=#{account},area=#{area},percent=#{percent},phone=#{phone},state=#{state},authority=#{authority},name=#{name},nickname=#{nickname},wechat_img=#{wechat_img},pid=#{pid},pass=#{pass} where account=#{account}")
 	boolean updateUser(Users user);
 	
 	@Delete("delete from users where account=#{account}")

@@ -2,6 +2,9 @@ package com.xiaoer.manage.serverImpl;
 
 import java.util.List;
 
+import org.apache.shiro.codec.CodecException;
+import org.apache.shiro.crypto.UnknownAlgorithmException;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,19 @@ public class userServerImpl implements userServer{
 
 	@Override
 	public Boolean addUser(Users user) {
+		String pass =user.getPass();
+		String hashAigorithName="MD5";
+		int hashInterations=1024;
+		String account =user.getAccount();
+		try {
+		Object obj=new SimpleHash(hashAigorithName,pass,account,hashInterations);
+		user.setPass(String.valueOf(obj));
+		}catch(CodecException e) {
+			e.printStackTrace();
+		}catch(UnknownAlgorithmException e) {
+			e.printStackTrace();
+		}
+		System.out.println(user.toString());
 		return usermapper.addUser(user);
 	}
 

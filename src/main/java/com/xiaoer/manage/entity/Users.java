@@ -15,6 +15,7 @@ public class Users {
 	private String nickname;
 	private String wechat_img;
 	private String pass;
+	private int pid;
 	public int getId() {
 		return id;
 	}
@@ -87,5 +88,22 @@ public class Users {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-
+	public int getPid() {
+		return pid;
+	}
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+	
+	@Override
+	public String toString() {
+		return "Users:"+this.getAccount()+","+this.getArea()+","+this.getAuthority()
+		+","+this.getName()
+		+","+this.getNickname()
+		+","+this.getPass()
+		+","+this.getPercent()
+		+","+this.getPhone()
+		+","+this.getPid()
+		+","+this.getState();		
+	}
 }
