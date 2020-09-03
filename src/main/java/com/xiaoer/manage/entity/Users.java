@@ -1,8 +1,9 @@
 package com.xiaoer.manage.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Users {
+public class Users implements Serializable{
 	private int id;
 	private String account;
 	private String area;

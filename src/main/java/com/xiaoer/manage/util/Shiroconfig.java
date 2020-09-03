@@ -3,9 +3,7 @@ package com.xiaoer.manage.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
-import org.apache.shiro.codec.Base64;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -17,15 +15,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Shiroconfig {
 	
-	//设置加密方式	
-	@Bean("hashedCredentialsMatcher")
-	public HashedCredentialsMatcher hashedCredentialsMatcher() {
-		HashedCredentialsMatcher credentialsMatcher =new HashedCredentialsMatcher();
-		credentialsMatcher.setHashAlgorithmName("MD5");
-		credentialsMatcher.setHashIterations(1024);
-		credentialsMatcher.setStoredCredentialsHexEncoded(true);
-		return credentialsMatcher;
-	}
+	/*
+	 * //设置加密方式
+	 * 
+	 * @Bean("hashedCredentialsMatcher") public HashedCredentialsMatcher
+	 * hashedCredentialsMatcher() { HashedCredentialsMatcher credentialsMatcher =new
+	 * HashedCredentialsMatcher(); credentialsMatcher.setHashAlgorithmName("MD5");
+	 * credentialsMatcher.setHashIterations(1024);
+	 * credentialsMatcher.setStoredCredentialsHexEncoded(true); return
+	 * credentialsMatcher; }
+	 */
 	@Bean("shiroFilterFactoryBean")
 	public ShiroFilterFactoryBean shiroFilterFactoryBean(org.apache.shiro.mgt.SecurityManager securitymanager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean =new ShiroFilterFactoryBean();
@@ -33,7 +32,8 @@ public class Shiroconfig {
 		Map<String,String> filterChainDefinitionMap =new LinkedHashMap<String,String>();
 		filterChainDefinitionMap.put("/static/**", "anon");
 		filterChainDefinitionMap.put("/logout","logout");
-		filterChainDefinitionMap.put("/**", "user");
+		filterChainDefinitionMap.put("/hello","anon");
+		filterChainDefinitionMap.put("/","user");
 		filterChainDefinitionMap.put("/**","authc");
 		shiroFilterFactoryBean.setLoginUrl("/login");
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
@@ -42,38 +42,36 @@ public class Shiroconfig {
 	};
 	
 	@Bean(name="defalutWebSecurityManager")
-	public DefaultWebSecurityManager getDefaultSecurityManager(@Qualifier("userRealm")MyShiroRealm userRealm,@Qualifier("ehCacheManager") EhCacheManager ehCacheManager) {
+	public DefaultWebSecurityManager getDefaultSecurityManager(@Qualifier("userRealm")MyShiroRealm userRealm) {
 		DefaultWebSecurityManager defaultWebSecurityManger =new DefaultWebSecurityManager();
 		defaultWebSecurityManger.setRealm(userRealm);
-		defaultWebSecurityManger.setCacheManager(ehCacheManager);
+		defaultWebSecurityManger.setCacheManager(CacheManager()); //注入缓存对象
 		defaultWebSecurityManger.setRememberMeManager(rememberMeManager());
 		return defaultWebSecurityManger;
 	}
-	
 	@Bean(name="ehCacheManager")
-	public EhCacheManager ehCacheManager() {
-	    EhCacheManager ehCacheManager = new EhCacheManager();
-	    ehCacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
-	    return ehCacheManager;
+	public EhCacheManager CacheManager() {
+		EhCacheManager cacheManager=new EhCacheManager();
+		cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
+		return cacheManager;
 	}
 	@Bean(name="userRealm")
 	public MyShiroRealm getUserRealm() {
 		return new MyShiroRealm();
 	}
-	@Bean
-	public CookieRememberMeManager rememberMeManager(){
-	    CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-	    cookieRememberMeManager.setCookie(rememberMeCookie());
-	    //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
-	    cookieRememberMeManager.setCipherKey(Base64.decode("2AvVhdsgUs0FSA3SDFAdag=="));
-	    return cookieRememberMeManager;
+	
+	@Bean	//cookie对象
+	public SimpleCookie rememberMe() {
+	System.out.println("rememberMe()");
+	SimpleCookie simplecookie =new SimpleCookie("rememberMe");
+	simplecookie.setMaxAge(259200);
+	return simplecookie;
 	}
-	@Bean
-	public SimpleCookie rememberMeCookie(){
-	    //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
-	    SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-	    //<!-- 记住我cookie生效时间30天 ,单位秒;-->
-	    simpleCookie.setMaxAge(259200);
-	    return simpleCookie;
+	@Bean //cookie管理对象
+	public CookieRememberMeManager rememberMeManager() {
+		System.out.println("rememberMeManager()");
+		CookieRememberMeManager manager =new CookieRememberMeManager();
+		manager.setCookie(rememberMe());
+		return manager;
 	}
 }

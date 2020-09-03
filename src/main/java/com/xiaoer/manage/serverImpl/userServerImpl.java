@@ -46,7 +46,6 @@ public class userServerImpl implements userServer{
 		}catch(UnknownAlgorithmException e) {
 			e.printStackTrace();
 		}
-		System.out.println(user.toString());
 		return usermapper.addUser(user);
 	}
 

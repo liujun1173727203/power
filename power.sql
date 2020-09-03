@@ -231,7 +231,7 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `account` varchar(64) DEFAULT NULL,
+  `account` varchar(64) NOT NULL,
   `area` varchar(64) NOT NULL,
   `percent` float DEFAULT NULL,
   `phone` varchar(32) DEFAULT NULL,
@@ -242,9 +242,11 @@ CREATE TABLE `users` (
   `nickname` varchar(20) DEFAULT NULL,
   `wechat_img` varchar(20) DEFAULT NULL,
   `pass` varchar(64) DEFAULT NULL,
+  `pid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `account` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `account` (`account`),
+  UNIQUE KEY `account_2` (`account`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +255,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1173727203','南京',NULL,NULL,'2020-08-19 11:47:38',0,1,'admin',NULL,NULL,'123456'),(2,'12231318731','南京',NULL,NULL,'2020-08-19 11:48:53',0,2,'visitor',NULL,NULL,NULL);
+INSERT INTO `users` VALUES (1,'1173727203','南京',NULL,NULL,'2020-08-19 11:47:38',0,1,'admin',NULL,NULL,'123456',0),(2,'12231318731','南京',NULL,NULL,'2020-08-19 11:48:53',0,2,'visitor',NULL,NULL,NULL,0),(3,'admin','火星',NULL,NULL,'2020-08-21 00:03:06',0,1,'admin',NULL,NULL,'123456',1),(4,'test','南京',0,NULL,'2020-08-21 10:35:17',0,0,'test',NULL,NULL,NULL,0),(7,'test1','南京',0,NULL,'2020-08-21 10:42:53',0,0,'test1',NULL,NULL,'4d20b36bb13d40935084bd49dc8b72ef',0),(8,'test11','南京',0,NULL,'2020-08-21 10:46:59',0,0,'test11',NULL,NULL,'2f56221374c44f377cc425f04261f708',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -322,4 +324,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-20 10:53:10
+-- Dump completed on 2020-08-23 12:11:46
