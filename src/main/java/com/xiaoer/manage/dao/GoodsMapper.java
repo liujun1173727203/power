@@ -12,8 +12,10 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
+import com.xiaoer.manage.entity.Goods;
+
 @Mapper
-public interface Goods {
+public interface GoodsMapper {
 	
 	@Results(id="Goods",value= {
 		@Result(column="goods_id",property="iGoodsId",jdbcType=JdbcType.INTEGER,id=true),

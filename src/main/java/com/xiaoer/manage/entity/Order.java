@@ -1,5 +1,7 @@
 package com.xiaoer.manage.entity;
 
+import java.util.List;
+
 public class Order {
 	
 	private int iOrderId;
@@ -7,6 +9,7 @@ public class Order {
 	private float fOrderPrice;
 	private int iOrderStatus;
 	private int iOrderGoodsId;
+	private List<Goods> goods;
 	public int getiOrderId() {
 		return iOrderId;
 	}
@@ -36,5 +39,11 @@ public class Order {
 	}
 	public void setiOrderGoodsId(int iOrderGoodsId) {
 		this.iOrderGoodsId = iOrderGoodsId;
+	}
+	public List<Goods> getGoods() {
+		return goods;
+	}
+	public void setGoods(List<Goods> goods) {
+		this.goods = goods;
 	}
 }

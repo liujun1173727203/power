@@ -11,8 +11,10 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
+import com.xiaoer.manage.entity.Classes;
+
 @Mapper
-public interface Classes {
+public interface ClassesMapper {
 	@Select("select * from `class`")
 	@Results(id="toclasses",value= {
 	@Result(column="class_id",property="iClassId", jdbcType=JdbcType.INTEGER,id=true),
