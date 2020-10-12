@@ -3,6 +3,7 @@ package com.xiaoer.manage.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
@@ -27,4 +28,7 @@ public interface MenuMapper {
 	@Select("select * from menu_pic where id={#iId}")
 	@ResultMap(value="menu")
 	Menu getMenu(int iId);
+	
+	@Insert("isnert into menu (pic_address)values(#{address}")
+	Boolean addMenuPic(String address);
 }

@@ -22,4 +22,8 @@ public class Merchant{
 	public void setsPass(String sPass) {
 		this.sPass = sPass;
 	}
+	@Override
+	public String toString() {
+		return this.getiMerPhone()+"=="+this.getsPass()+"==============";
+	}
 }

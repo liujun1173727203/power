@@ -18,7 +18,7 @@ public interface ClassesMapper {
 	@Select("select * from `class`")
 	@Results(id="toclasses",value= {
 	@Result(column="class_id",property="iClassId", jdbcType=JdbcType.INTEGER,id=true),
-	@Result(column="class_name",property="iClassName", jdbcType=JdbcType.VARCHAR),
+	@Result(column="class_name",property="sClassName", jdbcType=JdbcType.VARCHAR),
 	})
 	List<Classes> getClasses();
 	
@@ -26,7 +26,7 @@ public interface ClassesMapper {
 	Boolean addClasses(Classes classes);
 	
 	@Delete("delete from `class` where class_id=#{iClassId} or class_name=#{sClassName}")
-	Boolean delClasses(Classes classes);
+	Boolean delClasses(String sClassName);
 	
 	@Update("update `class` set class_name =#{sClassName} where class_id=#{iClassId}")
 	Boolean upClasses(Classes classes);

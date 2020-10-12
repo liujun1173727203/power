@@ -33,7 +33,6 @@ public class Shiroconfig {
 		filterChainDefinitionMap.put("/static/**", "anon");
 		filterChainDefinitionMap.put("/logout","logout");
 		filterChainDefinitionMap.put("/hello","anon");
-		filterChainDefinitionMap.put("/","user");
 		filterChainDefinitionMap.put("/**","authc");
 		shiroFilterFactoryBean.setLoginUrl("/login");
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
@@ -46,7 +45,7 @@ public class Shiroconfig {
 		DefaultWebSecurityManager defaultWebSecurityManger =new DefaultWebSecurityManager();
 		defaultWebSecurityManger.setRealm(userRealm);
 		defaultWebSecurityManger.setCacheManager(CacheManager()); //注入缓存对象
-		defaultWebSecurityManger.setRememberMeManager(rememberMeManager());
+//		defaultWebSecurityManger.setRememberMeManager(rememberMeManager());
 		return defaultWebSecurityManger;
 	}
 	@Bean(name="ehCacheManager")
@@ -67,11 +66,11 @@ public class Shiroconfig {
 	simplecookie.setMaxAge(259200);
 	return simplecookie;
 	}
-	@Bean //cookie管理对象
-	public CookieRememberMeManager rememberMeManager() {
-		System.out.println("rememberMeManager()");
-		CookieRememberMeManager manager =new CookieRememberMeManager();
-		manager.setCookie(rememberMe());
-		return manager;
-	}
+//	@Bean //cookie管理对象
+//	public CookieRememberMeManager rememberMeManager() {
+//		System.out.println("rememberMeManager()");
+//		CookieRememberMeManager manager =new CookieRememberMeManager();
+//		manager.setCookie(rememberMe());
+//		return manager;
+//	}
 }

@@ -29,7 +29,7 @@ public interface GoodsMapper {
 	List<Goods> getGoods();
 	
 	@Select("select * from goods where goods_id=#{GoodsId)")
-	@ResultMap(value ="goods")
+	@ResultMap(value ="Goods")
 	Goods findGoods(int id);
 	
 	@Insert("insert into goods values(goods_id,goods_name,price,status,goods_introduction,pic_address)values(#{iGoodSId},#{sGoodsName},#{fPrice},#{iState},#{sGoodsIntroduction},#{sPicAddress})")
